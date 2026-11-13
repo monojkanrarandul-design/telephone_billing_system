@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Telecom Billing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">Telecom Billing System</div>
+        <div class="nav-links">
+            <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container" style="text-align: center; margin-top: 50px;">
+        <h1>Welcome back, {{ username }}!</h1>
+        <p>Select an action below to manage the telecom network.</p>
+        
+        <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px;">
+            <a href="{{ url_for('dashboard') }}" id="btn-garganta" class="btn" style="padding: 20px; font-size: 18px;">📊 View Dashboard</a>
+            <a href="{{ url_for('add_bill') }}" id="btn-shatter" class="btn" style="padding: 20px; font-size: 18px;">➕ Generate New Bill</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static',filename='effects.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Telecom Billing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container auth-box">
+        <h1>Agent Login</h1>
+        {% if error %}
+            <p style="color: red; font-weight: bold;">{{ error }}</p>
+        {% endif %}
+        <form id="auth-form" method="POST">
+            <label>Username:</label>
+            <input type="text" name="username" required>
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p>New agent? <a href="{{ url_for('register') }}">Register here</a>.</p>
+    </div>
+    <script src="{{ url_for('static',filename='effects.js') }}"></script>
+</body>
+</html>
