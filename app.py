@@ -58,10 +58,32 @@ def register():
     
     return render_template('register.html')
 
-@app.route('/forgot_password')
+@app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
-    # Placeholder for the B.Tech project scope
-    return "<h2 style='color: #00c3ff; text-align: center; margin-top: 20%; font-family: sans-serif; background: #000; padding: 50px;'>Memory wipe detected. Contact Captain Kurotsuchi to retrieve your Reiatsu signature.<br><br><a href='/login' style='color: #fff;'>Return to Login</a></h2>"
+    error = None
+    if request.method == 'POST':
+        full_name = request.form['full_name']
+        username = request.form['username']
+        email = request.form['email']
+        new_password = request.form['new_password']
+
+        conn = get_db_connection()
+        # Strictly verify all three data points match an existing agent
+        user = conn.execute('SELECT * FROM users WHERE full_name = ? AND username = ? AND email = ?',
+                            (full_name, username, email)).fetchone()
+        
+        if user:
+            # Hash the new password and overwrite the old one
+            hashed_pw = generate_password_hash(new_password)
+            conn.execute('UPDATE users SET password = ? WHERE id = ?', (hashed_pw, user['id']))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('login'))
+        else:
+            conn.close()
+            error = "Verification failed. Dossier does not match Wandenreich records."
+
+    return render_template('forgot_password.html', error=error)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
