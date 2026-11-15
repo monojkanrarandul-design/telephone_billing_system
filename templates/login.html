@@ -11,14 +11,23 @@
         {% if error %}
             <p style="color: red; font-weight: bold;">{{ error }}</p>
         {% endif %}
-        <form id="auth-form" method="POST">
-            <label>Username:</label>
-            <input type="text" name="username" required>
-            <label>Password:</label>
-            <input type="password" name="password" required>
-            <button type="submit" class="btn">Login</button>
-        </form>
-        <p>New agent? <a href="{{ url_for('register') }}">Register here</a>.</p>
+        <form method="POST" id="auth-form">
+    <label>Username:</label>
+    <input type="text" name="username" required>
+
+    <label>Password:</label>
+    <div class="password-wrapper">
+        <input type="password" name="password" id="login-pwd" required>
+        <span class="toggle-icon" onclick="togglePassword('login-pwd', this)">👁️</span>
+    </div>
+
+    <div style="text-align: right; margin-top: 10px;">
+        <a href="{{ url_for('forgot_password') }}" style="font-size: 0.9rem; color: #b0b5bd; text-decoration: none;">Forgot password?</a>
+    </div>
+
+    <button type="submit" class="btn">Login</button>
+</form>
+<p>New agent? <a href="{{ url_for('register') }}">Register here</a></p>
     </div>
     <script src="{{ url_for('static',filename='effects.js') }}"></script>
 </body>

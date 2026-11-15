@@ -33,24 +33,35 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    error = None
     if request.method == 'POST':
+        full_name = request.form['full_name']
         username = request.form['username']
+        email = request.form['email']
+        phone = request.form['phone']
         password = request.form['password']
-        hashed_password = generate_password_hash(password) # Production standard security
-        
+        confirm_password = request.form['confirm_password']
+
+        if password != confirm_password:
+            return "Passwords do not match. Kyoka Suigetsu is deceiving you."
+
+        hashed_pw = generate_password_hash(password)
         conn = get_db_connection()
         try:
-            conn.execute('INSERT INTO SystemUser (username, password) VALUES (?, ?)', (username, hashed_password))
+            conn.execute('INSERT INTO users (full_name, username, email, phone, password) VALUES (?, ?, ?, ?, ?)',
+                         (full_name, username, email, phone, hashed_pw))
             conn.commit()
-            return redirect(url_for('login'))
         except sqlite3.IntegrityError:
-            error = "Username already exists!"
+            return "Username or Email already exists in the Wandenreich databanks."
         finally:
             conn.close()
-            
-    return render_template('register.html', error=error)
+        return redirect(url_for('login'))
+    
+    return render_template('register.html')
 
+@app.route('/forgot_password')
+def forgot_password():
+    # Placeholder for the B.Tech project scope
+    return "<h2 style='color: #00c3ff; text-align: center; margin-top: 20%; font-family: sans-serif; background: #000; padding: 50px;'>Memory wipe detected. Contact Captain Kurotsuchi to retrieve your Reiatsu signature.<br><br><a href='/login' style='color: #fff;'>Return to Login</a></h2>"
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None

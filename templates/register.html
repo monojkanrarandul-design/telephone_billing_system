@@ -11,14 +11,34 @@
         {% if error %}
             <p style="color: red; font-weight: bold;">{{ error }}</p>
         {% endif %}
-        <form method="POST">
+        <form method="POST" id="auth-form">
+            <label>Full Name:</label>
+            <input type="text" name="full_name" required>
+
             <label>Username:</label>
             <input type="text" name="username" required>
+
+            <label>E-mail ID:</label>
+            <input type="email" name="email" required>
+
+            <label>Phone Number:</label>
+            <input type="tel" name="phone" required pattern="[0-9]{10}">
+
             <label>Password:</label>
-            <input type="password" name="password" required>
-            <button type="submit" class="btn">Register Account</button>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="reg-pwd" required>
+                <span class="toggle-icon" onclick="togglePassword('reg-pwd', this)">👁️</span>
+            </div>
+
+            <label>Re-check Password:</label>
+            <div class="password-wrapper">
+                <input type="password" name="confirm_password" id="reg-pwd-confirm" required>
+                <span class="toggle-icon" onclick="togglePassword('reg-pwd-confirm', this)">👁️</span>
+            </div>
+
+            <button type="submit" class="btn">Register Operative</button>
         </form>
-        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+        <p>Already an agent? <a href="{{ url_for('login') }}">Login here</a></p>
     </div>
 </body>
 </html>

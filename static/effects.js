@@ -1,3 +1,14 @@
+// Toggle password visibility (The Almighty's Sight)
+function togglePassword(inputId, iconElement) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        iconElement.textContent = "🔒"; // Changes icon when visible
+    } else {
+        input.type = "password";
+        iconElement.textContent = "👁️"; // Changes icon when hidden
+    }
+}
 document.addEventListener("DOMContentLoaded", () => {
     
     // 1. Kurohitsugi (Triggered by Login/Register form submission)
