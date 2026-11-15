@@ -70,7 +70,8 @@ def login():
         password = request.form['password']
         
         conn = get_db_connection()
-        user = conn.execute('SELECT * FROM SystemUser WHERE username = ?', (username,)).fetchone()
+        # CHANGED: 'SystemUser' is now 'users' to match the registration table
+        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
         conn.close()
         
         if user and check_password_hash(user['password'], password):
